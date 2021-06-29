@@ -1,17 +1,18 @@
-import en from "./public/locales/en";
-import de from "./public/locales/de";
-import fr from "./public/locales/fr";
+import i18n from 'i18next'
+import Backend from 'i18next-http-backend'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import { initReactI18next } from 'react-i18next'
 
-export const translate = (key: string, language: string): string => {
-  let langData: { [key: string]: string } = {};
-
-  if(language === 'EN') {
-    langData = en;
-  }else if(language === 'DE') {
-    langData = de;
-  }else if(language === 'FR') {
-    langData = fr;
+i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
+  fallbackLng: 'en',
+  debug: true,
+  detection: {
+    order: ['queryString', 'cookie'],
+    cache: ['cookie']
+  },
+  interpolation: {
+    escapeValue: false
   }
+})
 
-  return langData[key];
-}
+export default i18n
